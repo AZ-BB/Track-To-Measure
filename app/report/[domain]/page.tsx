@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import TagResult from '../../components/TagResult';
-import { Tag } from '../../components/ScanResults';
+import { Tag } from '../../api';
 
 export default function ReportPage() {
   const params = useParams();

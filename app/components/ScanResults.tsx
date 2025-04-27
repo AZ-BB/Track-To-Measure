@@ -1,19 +1,15 @@
 import TagResult from './TagResult';
 import Link from 'next/link';
-
-export interface Tag {
-  name: string;
-  isPresent: boolean;
-  id?: string;
-}
+import { Tag, ScanResult } from '../api';
 
 interface ScanResultsProps {
   url: string;
   tags: Tag[];
   isLoading?: boolean;
+  scanResult?: ScanResult | null;
 }
 
-export default function ScanResults({ url, tags, isLoading = false }: ScanResultsProps) {
+export default function ScanResults({ url, tags, isLoading = false, scanResult }: ScanResultsProps) {
   if (isLoading) {
     return (
       <div className="w-full max-w-lg mx-auto p-6 mt-8 border border-blue-100 rounded-lg animate-pulse bg-white/50">
@@ -37,18 +33,34 @@ export default function ScanResults({ url, tags, isLoading = false }: ScanResult
   }
 
   const domain = new URL(url.startsWith('http') ? url : `https://${url}`).hostname;
+  const presentTags = tags.filter(tag => tag.isPresent).length;
+  const totalTags = tags.length;
+  const percentComplete = Math.round((presentTags / totalTags) * 100);
   
   return (
-    <div className="w-full max-w-lg mx-auto p-6 mt-8 rounded-lg bg-white">
-      <div className="flex items-center mb-4">
-        <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-lg flex items-center justify-center mr-3">
-          <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
+    <div className="w-full max-w-lg mx-auto p-6 mt-2 rounded-lg bg-white">
+      <div className="flex justify-center items-center mb-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-800">Tag Scan Report</h2>
-          <p className="text-sm text-gray-500">for {domain}</p>
+          <h2 className="text-2xl font-bold text-gray-800">Tag Scan Report</h2>
+          <p className="text-base text-gray-500">for <span className="text-blue-600 font-bold">{domain}</span></p>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-6">
+        <div className="flex justify-between mb-1">
+          <span className="text-xs font-medium text-blue-700">{presentTags} of {totalTags} tags detected</span>
+          <span className="text-xs font-medium text-blue-700">{percentComplete}%</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div 
+            className={`h-2.5 rounded-full ${
+              percentComplete < 33 ? 'bg-red-500' : 
+              percentComplete < 66 ? 'bg-yellow-500' : 
+              'bg-green-500'
+            }`} 
+            style={{ width: `${percentComplete}%` }}
+          ></div>
         </div>
       </div>
       
@@ -63,9 +75,23 @@ export default function ScanResults({ url, tags, isLoading = false }: ScanResult
         ))}
       </div>
       
+      {scanResult && scanResult.recommendations && scanResult.recommendations.length > 0 && (
+        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+          <h3 className="text-md font-semibold text-blue-800 mb-2">Recommendations</h3>
+          <ul className="list-disc list-inside text-sm text-blue-700 space-y-1">
+            {scanResult.recommendations.map((rec, index) => (
+              <li key={index}>{rec}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
       <div className="mt-8">
         <Link 
-          href={`/report/${encodeURIComponent(domain)}`} 
+          href={{
+            pathname: `/report/generate`,
+            query: { url: encodeURIComponent(url) }
+          }}
           className="block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center font-medium rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 ease-in-out transform hover:scale-105 shadow-md"
         >
           <span className="flex items-center justify-center">

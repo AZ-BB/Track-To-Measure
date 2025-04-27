@@ -3,31 +3,33 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import URLForm from './components/URLForm';
-import ScanResults, { Tag } from './components/ScanResults';
+import ScanResults from './components/ScanResults';
 import SubscriptionForm from './components/SubscriptionForm';
+import { scanUrl, ScanResult } from './api';
 
 export default function Home() {
   const [url, setUrl] = useState('');
   const [isScanning, setIsScanning] = useState(false);
-  const [scanResults, setScanResults] = useState<Tag[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [scanResults, setScanResults] = useState<ScanResult | null>(null);
 
   const handleScan = async (inputUrl: string) => {
     setUrl(inputUrl);
     setIsScanning(true);
+    setError(null);
     
     try {
-      // Mock API call - this would be replaced with a real API call to your backend
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Call the backend API to scan the URL
+      const result = await scanUrl({ 
+        url: inputUrl, 
+        includeCmsDetection: true
+      });
       
-      // Mock results - this would come from the backend in a real implementation
-      setScanResults([
-        { name: 'Google Tag Manager', isPresent: true, id: 'GTM-ABC123' },
-        { name: 'GA4', isPresent: true, id: 'G-XY27990' },
-        { name: 'Google Ads Conversion', isPresent: true },
-        { name: 'Meta Pixel', isPresent: false },
-      ]);
-    } catch (error) {
-      console.error('Error scanning URL:', error);
+      setScanResults(result);
+    } catch (err) {
+      console.error('Error scanning URL:', err);
+      setError(err instanceof Error ? err.message : 'Failed to scan URL');
+      setScanResults(null);
     } finally {
       setIsScanning(false);
     }
@@ -51,12 +53,21 @@ export default function Home() {
           <div className="bg-white p-8 rounded-xl shadow-lg border border-blue-100">
             <URLForm onSubmit={handleScan} isLoading={isScanning} />
             
+            {error && (
+              <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700">
+                {error}
+              </div>
+            )}
+            
             {/* Show scan results or skeleton loader */}
-            <ScanResults 
-              url={url} 
-              tags={scanResults} 
-              isLoading={isScanning && url.length > 0} 
-            />
+            {(scanResults || isScanning) && (
+              <ScanResults 
+                url={url} 
+                tags={scanResults?.tags || []} 
+                isLoading={isScanning} 
+                scanResult={scanResults}
+              />
+            )}
           </div>
           
           <div className="mt-16">
