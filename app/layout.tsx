@@ -27,7 +27,7 @@ export default function RootLayout({
       <head>
         <meta
           httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
+          content="default-src 'self' https: http:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; connect-src 'self' https: http:; img-src 'self' https: http: data:; style-src 'self' 'unsafe-inline' https: http:;"
         />
       </head>
       <body
