@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Track To Measure - Check Marketing Tags in Seconds",
-  description: "Instantly check GTM, GA4, Google Ads & Meta Pixel on any site",
+  description: "Instantly check GTM, GA4, Google Ads & Meta Pixel on any site"
 };
 
 export default function RootLayout({
@@ -24,6 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
