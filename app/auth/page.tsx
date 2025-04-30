@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import Link from 'next/link';
+import { storeRedirectUrl } from '../utils/auth';
 
 type AuthMode = 'login' | 'signup';
 
@@ -56,8 +57,12 @@ function AuthForm() {
   };
 
   const handleGoogleSignIn = () => {
-    // This is a placeholder - does nothing for now
-    console.log('Google sign-in clicked');
+    // Store the redirect URL before redirecting to Google auth
+    storeRedirectUrl(redirectUrl);
+    
+    // Redirect to the backend's Google OAuth route with the correct path
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    window.location.href = `${backendUrl}/api/user/auth/google`;
   };
 
   return (
@@ -82,7 +87,7 @@ function AuthForm() {
         <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-sm sm:text-base">TRACK TO MEASURE</span>
       </Link>
 
-      <h2 className="text-2xl font-bold mb-6 text-center">
+      <h2 className="text-2xl text-black font-bold mb-6 text-center">
         {mode === 'login' ? 'Log In to Your Account' : 'Create an Account'}
       </h2>
 
@@ -127,7 +132,7 @@ function AuthForm() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form className="text-black" onSubmit={handleSubmit}>
         {mode === 'signup' && (
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
