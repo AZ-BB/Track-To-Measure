@@ -1,8 +1,9 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { getAuthToken } from '../utils/auth';
 
-interface User {
+export interface User {
   id: string;
   email: string;
   name?: string;
@@ -15,6 +16,7 @@ interface AuthContextType {
   signup: (email: string, password: string, name?: string) => Promise<void>;
   logout: () => Promise<void>;
   isAuthenticated: boolean;
+  token: string | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,13 +31,18 @@ const getLocalStorage = () => {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     // Check for stored session on initial load
     const checkSession = async () => {
       try {
-        // This is a placeholder for actual session check logic
+        // Check for auth token first
+        const authToken = getAuthToken();
+        setToken(authToken);
+        
+        // If we have a token, check for user data
         const storage = getLocalStorage();
         if (storage) {
           const storedUser = storage.getItem('user');
@@ -56,15 +63,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // This is a placeholder for actual login logic
-      // In a real app, you would call your API here
+      // Make API call to your backend login endpoint
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${backendUrl}/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
       
-      const mockUser = { id: '1', email, name: 'Test User' };
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Login failed');
+      }
+      
+      const data = await response.json();
+      
+      // Store the token and user data
       const storage = getLocalStorage();
       if (storage) {
-        storage.setItem('user', JSON.stringify(mockUser));
+        storage.setItem('auth_token', data.token);
+        storage.setItem('user', JSON.stringify(data.user));
       }
-      setUser(mockUser);
+      
+      setToken(data.token);
+      setUser(data.user);
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
@@ -76,15 +100,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signup = async (email: string, password: string, name?: string) => {
     setIsLoading(true);
     try {
-      // This is a placeholder for actual signup logic
-      // In a real app, you would call your API here
+      // Make API call to your backend signup endpoint
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${backendUrl}/user/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, name }),
+      });
       
-      const mockUser = { id: '1', email, name: name || 'New User' };
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Signup failed');
+      }
+      
+      const data = await response.json();
+      
+      // Store the token and user data
       const storage = getLocalStorage();
       if (storage) {
-        storage.setItem('user', JSON.stringify(mockUser));
+        storage.setItem('auth_token', data.token);
+        storage.setItem('user', JSON.stringify(data.user));
       }
-      setUser(mockUser);
+      
+      setToken(data.token);
+      setUser(data.user);
     } catch (error) {
       console.error('Signup failed:', error);
       throw error;
@@ -96,11 +137,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     setIsLoading(true);
     try {
-      // This is a placeholder for actual logout logic
+      // Clear the stored auth data
       const storage = getLocalStorage();
       if (storage) {
+        storage.removeItem('auth_token');
         storage.removeItem('user');
       }
+      
+      setToken(null);
       setUser(null);
     } catch (error) {
       console.error('Logout failed:', error);
@@ -117,7 +161,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login, 
       signup, 
       logout,
-      isAuthenticated: !!user
+      isAuthenticated: !!token,
+      token
     }}>
       {children}
     </AuthContext.Provider>
