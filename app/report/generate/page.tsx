@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { generateReport } from '../../api';
+import { useAuth } from '../../context/AuthContext';
 
 export default function GenerateReport() {
   const [loading, setLoading] = useState(true);
@@ -10,11 +11,25 @@ export default function GenerateReport() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlParam = searchParams.get('url');
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   useEffect(() => {
     if (!urlParam) {
       setError('No URL provided');
       setLoading(false);
+      return;
+    }
+
+    // Check if user is authenticated
+    if (authLoading) {
+      return; // Still checking auth status
+    }
+
+    if (!isAuthenticated) {
+      // Redirect to auth page with return URL
+      const currentUrl = window.location.pathname + window.location.search;
+      const encodedRedirect = encodeURIComponent(currentUrl);
+      router.push(`/auth?redirect=${encodedRedirect}`);
       return;
     }
 
@@ -67,8 +82,10 @@ export default function GenerateReport() {
       }
     };
 
-    fetchReport();
-  }, [urlParam, router]);
+    if (isAuthenticated) {
+      fetchReport();
+    }
+  }, [urlParam, router, isAuthenticated, authLoading]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-50 via-blue-50 to-white p-4">

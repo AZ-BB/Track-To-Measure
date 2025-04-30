@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import AuthButton from './AuthButton';
 
 export default function Navbar() {
   return (
@@ -23,9 +24,12 @@ export default function Navbar() {
           </div>
           <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-sm sm:text-base">TRACK TO MEASURE</span>
         </Link>
-        <div className="flex items-center space-x-6 text-sm">
-          <Link href="/guides" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Guides</Link>
-          <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</Link>
+        <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-6 text-sm">
+            <Link href="/guides" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Guides</Link>
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</Link>
+          </div>
+          <AuthButton />
         </div>
       </div>
     </nav>
