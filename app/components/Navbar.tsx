@@ -26,6 +26,7 @@ export default function Navbar() {
         </Link>
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-6 text-sm">
+            <Link href="/listeners" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Listeners</Link>
             <Link href="/guides" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Guides</Link>
             <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</Link>
           </div>
