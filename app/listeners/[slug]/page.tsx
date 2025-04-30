@@ -4,10 +4,19 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { listenerCards } from '../../data/listenerCards';
 
-export default function EventListenerPage({ params }: { params: { slug: string } }) {
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function EventListenerPage() {
+
+  const params = useParams();
+
   const [isCopied, setIsCopied] = useState(false);
   
   const listener = listenerCards.find(card => card.slug === params.slug);
