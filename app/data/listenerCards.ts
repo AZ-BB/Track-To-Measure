@@ -155,40 +155,40 @@ To complete the implementation, create a GTM trigger [SmartsuppChatEvent] which 
 💡 To streamline your trigger in Google Tag Manager, use the variables you created to achieve your needs.
     `
   },
-  {
-    title: "Optin Monster",
-    description: "With this event listener, you can easily measure your Optin Monster pop-ups interactions and conversions using GTM.",
-    slug: "optin-monster",
-    logoPath: "/images/optinmonster-logo.jpg"
-  },
-  {
-    title: "Zopim Chat",
-    description: "Fire your marketing tags/pixels on specific Zopim chat interactions using this event listener in GTM.",
-    slug: "zopim-chat",
-    logoPath: "/images/zopim-logo.jpg"
-  },
-  {
-    title: "Crisp Chat",
-    description: "If you're using Crisp chat on your website, you can conveniently track user interactions with your Crisp chat widget.",
-    slug: "crisp-chat",
-    logoPath: "/images/crisp-logo.jpg"
-  },
-  {
-    title: "HubSpot Chat",
-    description: "Measure how users interact with your Hubspot Chat widget and use the data for better marketing reporting.",
-    slug: "hubspot-chat",
-    logoPath: "/images/hubspot-chat-logo.jpg"
-  },
-  {
-    title: "Ninja Forms",
-    description: "Enhance your marketing data by measuring Ninja Form submission as conversion using this event listener.",
-    slug: "ninja-forms",
-    logoPath: "/images/ninja-forms-logo.jpg"
-  },
-  {
-    title: "Pure Chat",
-    description: "Understand how users interact with the Pure chat widget embedded in your website and make better decisions.",
-    slug: "pure-chat",
-    logoPath: "/images/pure-chat-logo.jpg"
-  }
+  // {
+  //   title: "Optin Monster",
+  //   description: "With this event listener, you can easily measure your Optin Monster pop-ups interactions and conversions using GTM.",
+  //   slug: "optin-monster",
+  //   logoPath: "/images/optinmonster-logo.jpg"
+  // },
+  // {
+  //   title: "Zopim Chat",
+  //   description: "Fire your marketing tags/pixels on specific Zopim chat interactions using this event listener in GTM.",
+  //   slug: "zopim-chat",
+  //   logoPath: "/images/zopim-logo.jpg"
+  // },
+  // {
+  //   title: "Crisp Chat",
+  //   description: "If you're using Crisp chat on your website, you can conveniently track user interactions with your Crisp chat widget.",
+  //   slug: "crisp-chat",
+  //   logoPath: "/images/crisp-logo.jpg"
+  // },
+  // {
+  //   title: "HubSpot Chat",
+  //   description: "Measure how users interact with your Hubspot Chat widget and use the data for better marketing reporting.",
+  //   slug: "hubspot-chat",
+  //   logoPath: "/images/hubspot-chat-logo.jpg"
+  // },
+  // {
+  //   title: "Ninja Forms",
+  //   description: "Enhance your marketing data by measuring Ninja Form submission as conversion using this event listener.",
+  //   slug: "ninja-forms",
+  //   logoPath: "/images/ninja-forms-logo.jpg"
+  // },
+  // {
+  //   title: "Pure Chat",
+  //   description: "Understand how users interact with the Pure chat widget embedded in your website and make better decisions.",
+  //   slug: "pure-chat",
+  //   logoPath: "/images/pure-chat-logo.jpg"
+  // }
 ]; 
