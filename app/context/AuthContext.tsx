@@ -19,6 +19,14 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Helper to safely access localStorage
+const getLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    return window.localStorage;
+  }
+  return null;
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,9 +36,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkSession = async () => {
       try {
         // This is a placeholder for actual session check logic
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
+        const storage = getLocalStorage();
+        if (storage) {
+          const storedUser = storage.getItem('user');
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          }
         }
       } catch (error) {
         console.error('Session check failed:', error);
@@ -49,7 +60,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // In a real app, you would call your API here
       
       const mockUser = { id: '1', email, name: 'Test User' };
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      const storage = getLocalStorage();
+      if (storage) {
+        storage.setItem('user', JSON.stringify(mockUser));
+      }
       setUser(mockUser);
     } catch (error) {
       console.error('Login failed:', error);
@@ -66,7 +80,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // In a real app, you would call your API here
       
       const mockUser = { id: '1', email, name: name || 'New User' };
-      localStorage.setItem('user', JSON.stringify(mockUser));
+      const storage = getLocalStorage();
+      if (storage) {
+        storage.setItem('user', JSON.stringify(mockUser));
+      }
       setUser(mockUser);
     } catch (error) {
       console.error('Signup failed:', error);
@@ -80,7 +97,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       // This is a placeholder for actual logout logic
-      localStorage.removeItem('user');
+      const storage = getLocalStorage();
+      if (storage) {
+        storage.removeItem('user');
+      }
       setUser(null);
     } catch (error) {
       console.error('Logout failed:', error);
