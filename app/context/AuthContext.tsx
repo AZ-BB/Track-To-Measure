@@ -123,9 +123,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         storage.setItem('auth_token', data.data.token);
         storage.setItem('user', JSON.stringify(data.data));
       }
-      
-      setToken(data.token);
-      setUser(data.user);
+
+      setToken(data.data.token)
+      setUser(data.data)
     } catch (error) {
       console.error('Signup failed:', error);
       throw error;
