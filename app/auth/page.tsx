@@ -1,94 +1,97 @@
-'use client';
+"use client"
 
-import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../context/AuthContext';
-import Link from 'next/link';
-import { storeRedirectUrl } from '../utils/auth';
+import { useState, useEffect, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useAuth } from "../context/AuthContext"
+import Link from "next/link"
+import { storeRedirectUrl } from "../utils/auth"
 
-type AuthMode = 'login' | 'signup';
+type AuthMode = "login" | "signup"
 
 // Client component that uses search params
 function AuthForm() {
-  const [mode, setMode] = useState<AuthMode>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/';
-  const initialMode = searchParams.get('mode') as AuthMode || 'login';
-  
-  const { login, signup, isAuthenticated } = useAuth();
-  
+  const [mode, setMode] = useState<AuthMode>("login")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectUrl = searchParams.get("redirect") || "/"
+  const initialMode = (searchParams.get("mode") as AuthMode) || "login"
+
+  const { login, signup, isAuthenticated } = useAuth()
+
   useEffect(() => {
-    setMode(initialMode);
-    
+    setMode(initialMode)
+
     // If user is already authenticated, redirect
     if (isAuthenticated) {
-      router.push(redirectUrl);
+      router.push(redirectUrl)
     }
-  }, [initialMode, isAuthenticated, redirectUrl, router]);
+  }, [initialMode, isAuthenticated, redirectUrl, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
+    e.preventDefault()
+    setError(null)
+    setIsSubmitting(true)
 
     try {
-      if (mode === 'login') {
-        await login(email, password);
+      if (mode === "login") {
+        await login(email, password)
       } else {
-        await signup(email, password, name);
+        await signup(email, password, name)
       }
-      router.push(redirectUrl);
+      router.push(redirectUrl)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Authentication failed');
+      setError(err instanceof Error ? err.message : "Authentication failed")
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   const toggleMode = () => {
-    setMode(mode === 'login' ? 'signup' : 'login');
-    setError(null);
-  };
+    setMode(mode === "login" ? "signup" : "login")
+    setError(null)
+  }
 
   const handleGoogleSignIn = () => {
     // Store the redirect URL before redirecting to Google auth
-    storeRedirectUrl(redirectUrl);
-    
+    storeRedirectUrl(redirectUrl)
+
     // Redirect to the backend's Google OAuth route with the correct path
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-    window.location.href = `${backendUrl}/api/user/auth/google`;
-  };
+    const backendUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
+    window.location.href = `${backendUrl}/api/user/auth/google`
+  }
 
   return (
     <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-lg">
       <Link href="/" className="flex items-center justify-center mb-8">
         <div className="w-8 h-8 mr-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-          <svg 
-            className="w-5 h-5 text-white" 
-            viewBox="0 0 24 24" 
-            fill="none" 
+          <svg
+            className="w-5 h-5 text-white"
+            viewBox="0 0 24 24"
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path 
-              d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
+            <path
+              d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
         </div>
-        <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-sm sm:text-base">TRACK TO MEASURE</span>
+        <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-sm sm:text-base">
+          TRACK TO MEASURE
+        </span>
       </Link>
 
       <h2 className="text-2xl text-black font-bold mb-6 text-center">
-        {mode === 'login' ? 'Log In to Your Account' : 'Create an Account'}
+        {mode === "login" ? "Log In to Your Account" : "Create an Account"}
       </h2>
 
       {error && (
@@ -120,7 +123,7 @@ function AuthForm() {
             fill="#EA4335"
           />
         </svg>
-        {mode === 'login' ? 'Sign in with Google' : 'Sign up with Google'}
+        {mode === "login" ? "Sign in with Google" : "Sign up with Google"}
       </button>
 
       <div className="relative mb-6">
@@ -128,14 +131,19 @@ function AuthForm() {
           <div className="w-full border-t border-gray-300"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">Or continue with email</span>
+          <span className="px-2 bg-white text-gray-500">
+            Or continue with email
+          </span>
         </div>
       </div>
 
       <form className="text-black" onSubmit={handleSubmit}>
-        {mode === 'signup' && (
+        {mode === "signup" && (
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Name
             </label>
             <input
@@ -150,7 +158,10 @@ function AuthForm() {
         )}
 
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Email
           </label>
           <input
@@ -165,7 +176,10 @@ function AuthForm() {
         </div>
 
         <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             Password
           </label>
           <input
@@ -186,37 +200,57 @@ function AuthForm() {
         >
           {isSubmitting ? (
             <span className="flex items-center justify-center">
-              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <svg
+                className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
               </svg>
               Processing...
             </span>
+          ) : mode === "login" ? (
+            "Log In"
           ) : (
-            mode === 'login' ? 'Log In' : 'Sign Up'
+            "Sign Up"
           )}
         </button>
       </form>
 
       <div className="mt-6 text-center text-sm">
         <span className="text-gray-600">
-          {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
+          {mode === "login"
+            ? "Don't have an account? "
+            : "Already have an account? "}
         </span>
         <button
           onClick={toggleMode}
           className="text-blue-600 hover:text-blue-800 font-medium"
         >
-          {mode === 'login' ? 'Sign Up' : 'Log In'}
+          {mode === "login" ? "Sign Up" : "Log In"}
         </button>
       </div>
-      
+
       <div className="mt-8 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
         <Link href="/" className="text-blue-600 hover:text-blue-800">
           Return to Home
         </Link>
       </div>
     </div>
-  );
+  )
 }
 
 // Loading fallback for Suspense
@@ -226,7 +260,7 @@ function AuthLoading() {
       <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
       <span className="ml-3 text-gray-700">Loading...</span>
     </div>
-  );
+  )
 }
 
 // Main page component with Suspense boundary
@@ -237,5 +271,5 @@ export default function AuthPage() {
         <AuthForm />
       </Suspense>
     </div>
-  );
-} 
+  )
+}

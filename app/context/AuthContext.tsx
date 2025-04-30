@@ -83,12 +83,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Store the token and user data
       const storage = getLocalStorage();
       if (storage) {
-        storage.setItem('auth_token', data.token);
-        storage.setItem('user', JSON.stringify(data.user));
+        storage.setItem('auth_token', data.data.token);
+        storage.setItem('user', JSON.stringify(data.data));
       }
       
-      setToken(data.token);
-      setUser(data.user);
+      setToken(data.data.token);
+      setUser(data.data);
     } catch (error) {
       console.error('Login failed:', error);
       throw error;
@@ -120,8 +120,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Store the token and user data
       const storage = getLocalStorage();
       if (storage) {
-        storage.setItem('auth_token', data.token);
-        storage.setItem('user', JSON.stringify(data.user));
+        storage.setItem('auth_token', data.data.token);
+        storage.setItem('user', JSON.stringify(data.data));
       }
       
       setToken(data.token);
