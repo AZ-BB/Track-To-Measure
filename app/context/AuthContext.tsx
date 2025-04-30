@@ -65,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // Make API call to your backend login endpoint
       const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${backendUrl}/user/login`, {
+      const response = await fetch(`${backendUrl}/api/user/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       // Make API call to your backend signup endpoint
       const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${backendUrl}/user/signup`, {
+      const response = await fetch(`${backendUrl}/api/user/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
