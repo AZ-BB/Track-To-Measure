@@ -38,6 +38,9 @@ function ListenerCard({ title, description, slug, logoPath }: ListenerCardProps)
 }
 
 export default function ListenersPage() {
+    // Filter out any undefined items (in case some are commented out in the data file)
+    const activeListenerCards = listenerCards.filter(card => card);
+    
     return (
         <div className="min-h-screen flex flex-col bg-white text-black">
             <Navbar />
@@ -50,7 +53,7 @@ export default function ListenersPage() {
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {listenerCards.map((card, index) => (
+                        {activeListenerCards.map((card, index) => (
                             <ListenerCard
                                 key={index}
                                 title={card.title}
