@@ -16,24 +16,24 @@ export default function AuthButton() {
 
   if (isLoading) {
     return (
-      <div className="h-8 w-24 bg-gray-200 animate-pulse rounded"></div>
+      <div className="h-7 sm:h-8 w-20 sm:w-24 bg-gray-200 animate-pulse rounded"></div>
     );
   }
 
   if (user) {
     return (
       <div className="relative group">
-        <button className="flex items-center space-x-1 text-sm font-medium text-gray-700 hover:text-blue-600">
+        <button className="flex items-center space-x-1 text-xs sm:text-sm font-medium text-gray-700 hover:text-blue-600">
           <span>{user.name || user.email}</span>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
           </svg>
         </button>
         
-        <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+        <div className="absolute right-0 mt-2 w-40 sm:w-48 bg-white rounded-lg shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
           <button
             onClick={handleLogout}
-            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            className="w-full text-left px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100"
           >
             Log out
           </button>
@@ -43,16 +43,16 @@ export default function AuthButton() {
   }
 
   return (
-    <div className="flex items-center space-x-3">
+    <div className="flex items-center space-x-2 sm:space-x-3">
       <Link
         href="/auth?mode=login"
-        className="text-gray-700 hover:text-blue-600 text-sm font-medium"
+        className="text-gray-700 hover:text-blue-600 text-xs sm:text-sm font-medium"
       >
         Log in
       </Link>
       <Link
         href="/auth?mode=signup"
-        className="py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+        className="py-1 sm:py-1.5 px-2 sm:px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-lg transition-colors"
       >
         Sign up
       </Link>
