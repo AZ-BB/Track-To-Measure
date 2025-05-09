@@ -49,41 +49,41 @@ export default function TagResult({ name, isPresent, status, id, details }: TagR
   }
 
   return (
-    <div className="flex items-center py-4">
-      <div className="mr-4">
+    <div className="flex items-center py-3 sm:py-4">
+      <div className="mr-3 sm:mr-4">
         {name === "Google Tag Manager" && (
-          <div className="w-10 h-10 flex items-center justify-center rounded-lg">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
             <img
               src="/tags/GTM.png"
               alt="Google Tag Manager"
-              className="w-8 h-8"
+              className="w-6 h-6 sm:w-8 sm:h-8"
             />
           </div>
         )}
 
         {name === "GA4" && (
-          <div className="w-10 h-10 flex items-center justify-center rounded-lg">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
             <img
               src="/tags/GA4.png"
               alt="Google Analytics 4"
-              className="w-8 h-8"
+              className="w-6 h-6 sm:w-8 sm:h-8"
             />
           </div>
         )}
 
         {name === "Google Ads Conversion" && (
-          <div className="w-10 h-10 flex items-center justify-center rounded-lg">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
             <img
               src="/tags/GAC.svg"
               alt="Google Ads Conversion"
-              className="w-8 h-8"
+              className="w-6 h-6 sm:w-8 sm:h-8"
             />
           </div>
         )}
 
         {name === "Meta Pixel" && (
-          <div className="w-10 h-10 flex items-center justify-center rounded-lg">
-            <img src="/tags/meta.png" alt="Meta Pixel" className="w-8 h-8" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
+            <img src="/tags/meta.png" alt="Meta Pixel" className="w-6 h-6 sm:w-8 sm:h-8" />
           </div>
         )}
       </div>
@@ -98,6 +98,7 @@ export default function TagResult({ name, isPresent, status, id, details }: TagR
 
       <div className="ml-2 flex items-center">
         {renderStatusBadge()}
+
       </div>
     </div>
   )

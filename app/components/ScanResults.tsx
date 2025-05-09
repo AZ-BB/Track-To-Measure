@@ -12,16 +12,16 @@ interface ScanResultsProps {
 export default function ScanResults({ url, tags, isLoading = false, scanResult }: ScanResultsProps) {
   if (isLoading) {
     return (
-      <div className="w-full max-w-lg mx-auto p-6 mt-8 border border-blue-100 rounded-lg animate-pulse bg-white/50">
-        <div className="h-5 bg-blue-100 rounded w-3/4 mb-4"></div>
-        <div className="h-4 bg-blue-100 rounded w-1/2 mb-6"></div>
+      <div className="w-full max-w-lg mx-auto p-3 sm:p-6 mt-4 sm:mt-8 border border-blue-100 rounded-lg animate-pulse bg-white/50">
+        <div className="h-4 sm:h-5 bg-blue-100 rounded w-3/4 mb-3 sm:mb-4"></div>
+        <div className="h-3 sm:h-4 bg-blue-100 rounded w-1/2 mb-4 sm:mb-6"></div>
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="flex items-center my-4">
-            <div className="w-8 h-8 mr-3 bg-blue-100 rounded-full"></div>
+          <div key={i} className="flex items-center my-3 sm:my-4">
+            <div className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 bg-blue-100 rounded-full"></div>
             <div className="flex-grow">
-              <div className="h-4 bg-blue-100 rounded w-1/2 mb-2"></div>
+              <div className="h-3 sm:h-4 bg-blue-100 rounded w-1/2 mb-1 sm:mb-2"></div>
             </div>
-            <div className="w-8 h-8 ml-2 bg-blue-100 rounded-full"></div>
+            <div className="w-6 h-6 sm:w-8 sm:h-8 ml-1 sm:ml-2 bg-blue-100 rounded-full"></div>
           </div>
         ))}
       </div>
@@ -46,23 +46,23 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
   const notFoundCount = tags.filter(tag => tag.status === TagStatus.NOT_FOUND).length;
   
   return (
-    <div className="w-full max-w-lg mx-auto p-6 mt-2 rounded-lg bg-white">
-      <div className="flex justify-center items-center mb-4">
+    <div className="w-full max-w-lg mx-auto p-3 sm:p-6 mt-2 rounded-lg bg-white">
+      <div className="flex justify-center items-center mb-3 sm:mb-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Tag Scan Report</h2>
-          <p className="text-base text-gray-500">for <span className="text-blue-600 font-bold">{domain}</span></p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Tag Scan Report</h2>
+          <p className="text-sm sm:text-base text-gray-500">for <span className="text-blue-600 font-bold">{domain}</span></p>
         </div>
       </div>
 
       {/* Progress bar */}
-      <div className="mb-6">
+      <div className="mb-4 sm:mb-6">
         <div className="flex justify-between mb-1">
           <span className="text-xs font-medium text-blue-700">{fullyConnectedTags} of {totalTags} tags properly connected</span>
           <span className="text-xs font-medium text-blue-700">{percentComplete}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2.5">
+        <div className="w-full bg-gray-200 rounded-full h-2 sm:h-2.5">
           <div 
-            className={`h-2.5 rounded-full ${
+            className={`h-2 sm:h-2.5 rounded-full ${
               percentComplete < 33 ? 'bg-red-500' : 
               percentComplete < 66 ? 'bg-yellow-500' : 
               'bg-green-500'
@@ -113,9 +113,9 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
       </div>
       
       {scanResult && scanResult.recommendations && scanResult.recommendations.length > 0 && (
-        <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <h3 className="text-md font-semibold text-blue-800 mb-2">Recommendations</h3>
-          <ul className="list-disc list-inside text-sm text-blue-700 space-y-1">
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-50 rounded-lg">
+          <h3 className="text-sm sm:text-md font-semibold text-blue-800 mb-1 sm:mb-2">Recommendations</h3>
+          <ul className="list-disc list-inside text-xs sm:text-sm text-blue-700 space-y-1">
             {scanResult.recommendations.map((rec, index) => (
               <li key={index}>{rec}</li>
             ))}
@@ -123,16 +123,16 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
         </div>
       )}
       
-      <div className="mt-8">
+      <div className="mt-6 sm:mt-8">
         <Link 
           href={{
             pathname: `/report/generate`,
             query: { url: encodeURIComponent(url) }
           }}
-          className="block w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center font-medium rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 ease-in-out transform hover:scale-105 shadow-md"
+          className="block w-full py-2 sm:py-3 px-3 sm:px-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-center text-sm sm:text-base font-medium rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 ease-in-out transform hover:scale-105 shadow-md"
         >
           <span className="flex items-center justify-center">
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
             </svg>
             Download Report
