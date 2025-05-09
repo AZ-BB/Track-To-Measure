@@ -1,6 +1,6 @@
 import TagResult from './TagResult';
 import Link from 'next/link';
-import { Tag, ScanResult } from '../api';
+import { Tag, ScanResult, TagStatus } from '../api';
 
 interface ScanResultsProps {
   url: string;
@@ -33,9 +33,17 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
   }
 
   const domain = new URL(url.startsWith('http') ? url : `https://${url}`).hostname;
-  const presentTags = tags.filter(tag => tag.isPresent).length;
+  
+  // Consider fully connected tags only
+  const fullyConnectedTags = tags.filter(tag => tag.status === TagStatus.CONNECTED).length;
   const totalTags = tags.length;
-  const percentComplete = Math.round((presentTags / totalTags) * 100);
+  const percentComplete = Math.round((fullyConnectedTags / totalTags) * 100);
+  
+  // Count status types for summary
+  const connectedCount = tags.filter(tag => tag.status === TagStatus.CONNECTED).length;
+  const misconfiguredCount = tags.filter(tag => tag.status === TagStatus.MISCONFIGURED).length;
+  const incompleteCount = tags.filter(tag => tag.status === TagStatus.INCOMPLETE).length;
+  const notFoundCount = tags.filter(tag => tag.status === TagStatus.NOT_FOUND).length;
   
   return (
     <div className="w-full max-w-lg mx-auto p-6 mt-2 rounded-lg bg-white">
@@ -49,7 +57,7 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex justify-between mb-1">
-          <span className="text-xs font-medium text-blue-700">{presentTags} of {totalTags} tags detected</span>
+          <span className="text-xs font-medium text-blue-700">{fullyConnectedTags} of {totalTags} tags properly connected</span>
           <span className="text-xs font-medium text-blue-700">{percentComplete}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -64,13 +72,42 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
         </div>
       </div>
       
+      {/* Status summary */}
+      <div className="flex justify-between mb-4 text-xs text-gray-600 bg-gray-50 p-3 rounded">
+        <div className="flex items-center">
+          <div className="w-3 h-3 rounded-full bg-green-500 mr-1"></div>
+          <span>Connected: {connectedCount}</span>
+        </div>
+        {misconfiguredCount > 0 && (
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-yellow-500 mr-1"></div>
+            <span>Misconfigured: {misconfiguredCount}</span>
+          </div>
+        )}
+        {incompleteCount > 0 && (
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-orange-500 mr-1"></div>
+            <span>Incomplete: {incompleteCount}</span>
+          </div>
+        )}
+        {notFoundCount > 0 && (
+          <div className="flex items-center">
+            <div className="w-3 h-3 rounded-full bg-red-500 mr-1"></div>
+            <span>Not Found: {notFoundCount}</span>
+          </div>
+        )}
+      </div>
+      
       <div className="divide-y divide-blue-100">
         {tags.map((tag) => (
           <TagResult 
             key={tag.name} 
             name={tag.name} 
             isPresent={tag.isPresent}
+            status={tag.status}
             id={tag.id}
+            details={tag.details}
+            dataLayer={tag.dataLayer}
           />
         ))}
       </div>

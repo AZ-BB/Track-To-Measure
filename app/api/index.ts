@@ -13,11 +13,21 @@ export interface ReportOptions {
   colorScheme?: 'default' | 'modern' | 'professional';
 }
 
+export enum TagStatus {
+  CONNECTED = 'Connected',
+  MISCONFIGURED = 'Misconfigured',
+  INCOMPLETE = 'Incomplete Setup',
+  NOT_FOUND = 'Not Found',
+  ERROR = 'Error'
+}
+
 export interface Tag {
   name: string;
   isPresent: boolean;
+  status: TagStatus;
   id?: string;
   details?: string;
+  dataLayer?: boolean;
 }
 
 export interface ScanResult {
