@@ -11,14 +11,14 @@ interface GuideCardProps {
 function GuideCard({ title, description, slug, icon }: GuideCardProps) {
   return (
     <Link href={`/guides/${slug}`} className="block">
-      <div className="border rounded-lg p-6 hover:shadow-md transition-shadow">
+      <div className="border border-gray-300 rounded-lg p-6 hover:shadow-md transition-shadow">
         <div className="flex items-center mb-4">
           <div className="w-10 h-10 mr-3 flex items-center justify-center text-blue-600">
             {icon}
           </div>
           <h3 className="text-lg font-semibold">{title}</h3>
         </div>
-        <p className="text-gray-600">{description}</p>
+        <p className="text-gray-800">{description}</p>
       </div>
     </Link>
   );
@@ -26,13 +26,13 @@ function GuideCard({ title, description, slug, icon }: GuideCardProps) {
 
 export default function GuidesPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white text-gray-900">
       <Navbar />
       
       <main className="flex-grow flex flex-col items-center px-4 py-8">
         <div className="w-full max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold mb-3">Marketing Tag Guides</h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-gray-800 mb-8">
             Learn how to properly implement and verify marketing tags on your website.
           </p>
           

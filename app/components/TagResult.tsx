@@ -1,5 +1,6 @@
-import { FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaQuestionCircle } from "react-icons/fa"
+import { FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaQuestionCircle, FaExclamation, FaExclamationCircle } from "react-icons/fa"
 import { TagStatus } from "../api"
+import { CSSProperties } from "react"
 
 interface TagResultProps {
   name: string
@@ -8,48 +9,54 @@ interface TagResultProps {
   id?: string
   details?: string
   dataLayer?: boolean
+  style?: CSSProperties
+  index: number
 }
 
-export default function TagResult({ name, isPresent, status, id, details }: TagResultProps) {
+export default function TagResult({ name, isPresent, status, id, details, dataLayer, style, index }: TagResultProps) {
   // Generate status badge based on status
   const renderStatusBadge = () => {
     switch (status) {
       case TagStatus.CONNECTED:
         return (
-          <div className="flex justify-center items-center bg-green-50 text-green-600 px-1 py-1 rounded-full">
-            <FaCheckCircle className="w-6 h-6" />
+          <div className="flex justify-center items-center text-green-500 p-[2px] rounded-full">
+            <FaCheckCircle className="w-[24px] h-[24px]" />
           </div>
         )
       case TagStatus.MISCONFIGURED:
         return (
-          <div className="flex justify-center items-center bg-yellow-50 text-yellow-600 px-1 py-1 rounded-full" title="Misconfigured">
-            <FaExclamationTriangle className="w-6 h-6" />
+          <div className="flex justify-center items-center text-yellow-500 p-[2px] rounded-full" title="Misconfigured">
+            <FaExclamationCircle   className="w-[24px] h-[24px]" />
           </div>
         )
       case TagStatus.INCOMPLETE:
         return (
-          <div className="flex justify-center items-center bg-orange-50 text-orange-500 px-1 py-1 rounded-full" title="Incomplete Setup">
-            <FaExclamationTriangle className="w-6 h-6" />
+          <div className="flex justify-center items-center text-orange-500 p-[2px] rounded-full" title="Incomplete Setup">
+            <FaExclamationCircle   className="w-[24px] h-[24px]" />
           </div>
         )
       case TagStatus.ERROR:
         return (
-          <div className="flex justify-center items-center bg-purple-50 text-purple-500 px-1 py-1 rounded-full" title="Error">
-            <FaQuestionCircle className="w-6 h-6" />
+          <div className="flex justify-center items-center bg-purple-500 text-white p-1 rounded-full" title="Error">
+            <FaQuestionCircle className="w-[24px] h-[24px]" />
           </div>
         )
       case TagStatus.NOT_FOUND:
       default:
         return (
-          <div className="flex justify-center items-center bg-red-50 text-red-500 px-1 py-1 rounded-full">
-            <FaTimesCircle className="w-6 h-6" />
+          <div className="flex justify-center items-center bg-white text-red-600 p-[2px] rounded-full">
+            <FaTimesCircle className="w-[24px] h-[24px]" />
           </div>
         )
     }
   }
 
   return (
-    <div className="flex items-center py-3 sm:py-4">
+    <div className="flex items-center py-3 sm:py-4 opacity-0" style={{
+      ...style,
+      animation: `fadeIn ${index * 1}s ease-in-out forwards`,
+      // animationDelay: `${index * 100}ms`
+    }}>
       <div className="mr-3 sm:mr-4">
         {name === "Google Tag Manager" && (
           <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">

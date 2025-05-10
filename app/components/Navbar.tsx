@@ -26,12 +26,12 @@ export default function Navbar() {
               />
             </svg>
           </div>
-          <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-xs sm:text-sm md:text-base">TRACK TO MEASURE</span>
+          <span className="font-poppins font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-xs sm:text-sm md:text-base">TRACK TO MEASURE</span>
         </Link>
 
         {/* Desktop menu */}
         <div className="hidden md:flex items-center space-x-6">
-          <div className="flex items-center space-x-6 text-sm">
+          <div className="flex items-center space-x-6 text-sm font-poppins">
             <Link href="/listeners" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Listeners</Link>
             <Link href="/guides" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">Guides</Link>
             <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">About</Link>
@@ -75,7 +75,7 @@ export default function Navbar() {
       {/* Mobile menu */}
       {isMenuOpen && (
         <div className="md:hidden px-4 py-3 bg-white border-t border-gray-100 shadow-inner">
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 font-poppins">
             <Link 
               href="/listeners" 
               className="text-gray-700 hover:text-blue-600 font-medium transition-colors" 

@@ -2,7 +2,7 @@ import Navbar from '../components/Navbar';
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white text-gray-900">
       <Navbar />
       
       <main className="flex-grow flex flex-col items-center px-4 py-8">
