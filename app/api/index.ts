@@ -26,6 +26,7 @@ export interface Tag {
   isPresent: boolean;
   status: TagStatus;
   id?: string;
+  ids?: string[];
   details?: string;
   dataLayer?: boolean;
 }
