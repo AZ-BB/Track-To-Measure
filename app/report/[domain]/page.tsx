@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import TagResult from '../../components/TagResult';
-import { Tag } from '../../api';
+import { Tag, TagStatus } from '../../api';
 
 export default function ReportPage() {
   const params = useParams();
@@ -21,13 +21,13 @@ export default function ReportPage() {
         
         // Mock data
         setTags([
-          { name: 'Google Tag Manager', isPresent: true, id: 'GTM-ABC123' },
-          { name: 'GA4', isPresent: true, id: 'G-XY27990' },
-          { name: 'Google Ads Conversion', isPresent: true, id: 'AW-123456789' },
-          { name: 'Meta Pixel', isPresent: false },
-          { name: 'LinkedIn Insight', isPresent: false },
-          { name: 'Pinterest Tag', isPresent: false },
-          { name: 'Twitter Pixel', isPresent: false },
+          { name: 'Google Tag Manager', isPresent: true, id: 'GTM-ABC123', status: TagStatus.CONNECTED },
+          { name: 'GA4', isPresent: true, id: 'G-XY27990', status: TagStatus.CONNECTED },
+          { name: 'Google Ads Conversion', isPresent: true, id: 'AW-123456789', status: TagStatus.CONNECTED },
+          { name: 'Meta Pixel', isPresent: false, status: TagStatus.NOT_FOUND },
+          { name: 'LinkedIn Insight', isPresent: false, status: TagStatus.NOT_FOUND },
+          { name: 'Pinterest Tag', isPresent: false, status: TagStatus.NOT_FOUND },
+          { name: 'Twitter Pixel', isPresent: false, status: TagStatus.NOT_FOUND },
         ]);
       } catch (error) {
         console.error('Error fetching report:', error);
@@ -90,12 +90,14 @@ export default function ReportPage() {
               <h2 className="text-lg font-semibold mb-3">Marketing Tags</h2>
               <div className="border rounded-lg overflow-hidden">
                 <div className="divide-y">
-                  {tags.map(tag => (
+                  {tags.map((tag, index) => (
                     <div key={tag.name} className="p-3">
                       <TagResult 
                         name={tag.name} 
                         isPresent={tag.isPresent} 
                         id={tag.id} 
+                        status={tag.status}
+                        index={index}
                       />
                     </div>
                   ))}
