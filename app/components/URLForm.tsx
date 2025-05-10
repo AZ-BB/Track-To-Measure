@@ -16,12 +16,12 @@ export default function URLForm({ onSubmit, isLoading = false }: URLFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto">
+    <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto font-quicksand">
       <div className="flex flex-col sm:flex-row items-center w-full">
-        <div className="relative w-full sm:w-[80%]">
+        <div className="relative w-full sm:w-[75%]">
           <div className="absolute inset-y-0 left-0 flex items-center pl-2 sm:pl-3 pointer-events-none">
             <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 text-black"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -36,17 +36,18 @@ export default function URLForm({ onSubmit, isLoading = false }: URLFormProps) {
             </svg>
           </div>
           <input
+            id="url-input"
             type="text"
             placeholder="Enter website URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            className="w-full text-black h-10 sm:h-12 text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-4 pl-8 sm:pl-10 border-2 border-blue-200 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:border-blue-400"
+            className="w-full sm:border-r-0 text-black h-10 sm:h-12 text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-4 pl-8 sm:pl-10 border-2 border-blue-200 rounded-lg sm:rounded-l-lg sm:rounded-r-none focus:outline-none focus:border-blue-400"
             disabled={isLoading}
           />
         </div>
         <button
           type="submit"
-          className={`w-full sm:w-auto mt-2 sm:mt-0 h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base ${!url.trim() ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-lg sm:rounded-l-none hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 transition-all duration-200 ease-in-out transform hover:scale-105 disabled:hover:scale-100`}
+          className={`transition-all w-full sm:w-[25%] mt-2 sm:mt-0 h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base ${!url.trim() ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} bg-gradient-to-r from-blue-500 to-indigo-600 disabled:hover:from-blue-500 disabled:hover:to-indigo-600 text-white font-medium rounded-lg sm:rounded-l-none hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 transition-all duration-200 ease-in-out transform hover:scale-105 disabled:hover:scale-100`}
           disabled={isLoading || !url.trim()}
         >
           {isLoading ? (
