@@ -21,13 +21,51 @@ export default function ReportPage() {
         
         // Mock data
         setTags([
-          { name: 'Google Tag Manager', isPresent: true, id: 'GTM-ABC123', status: TagStatus.CONNECTED },
-          { name: 'GA4', isPresent: true, id: 'G-XY27990', status: TagStatus.CONNECTED },
-          { name: 'Google Ads Conversion', isPresent: true, id: 'AW-123456789', status: TagStatus.CONNECTED },
-          { name: 'Meta Pixel', isPresent: false, status: TagStatus.NOT_FOUND },
-          { name: 'LinkedIn Insight', isPresent: false, status: TagStatus.NOT_FOUND },
-          { name: 'Pinterest Tag', isPresent: false, status: TagStatus.NOT_FOUND },
-          { name: 'Twitter Pixel', isPresent: false, status: TagStatus.NOT_FOUND },
+          { 
+            name: 'Google Tag Manager', 
+            isPresent: true, 
+            id: 'GTM-ABC123', 
+            status: TagStatus.CONNECTED,
+            statusReason: 'GTM is properly implemented and activated.'
+          },
+          { 
+            name: 'GA4', 
+            isPresent: true, 
+            id: 'G-XY27990', 
+            status: TagStatus.CONNECTED,
+            statusReason: 'GA4 tracking is properly implemented and sending data to Google Analytics.'
+          },
+          { 
+            name: 'Google Ads Conversion', 
+            isPresent: true, 
+            id: 'AW-123456789', 
+            status: TagStatus.CONNECTED,
+            statusReason: 'Google Ads conversion tracking is properly configured.'
+          },
+          { 
+            name: 'Meta Pixel', 
+            isPresent: false, 
+            status: TagStatus.NOT_FOUND,
+            statusReason: 'No Meta Pixel implementation detected.'
+          },
+          { 
+            name: 'LinkedIn Insight', 
+            isPresent: false, 
+            status: TagStatus.NOT_FOUND,
+            statusReason: 'No LinkedIn Insight Tag detected on this site.'
+          },
+          { 
+            name: 'Pinterest Tag', 
+            isPresent: false, 
+            status: TagStatus.NOT_FOUND,
+            statusReason: 'No Pinterest Tag implementation detected.'
+          },
+          { 
+            name: 'Twitter Pixel', 
+            isPresent: false, 
+            status: TagStatus.NOT_FOUND,
+            statusReason: 'No Twitter Pixel implementation detected.'
+          },
         ]);
       } catch (error) {
         console.error('Error fetching report:', error);
@@ -97,6 +135,7 @@ export default function ReportPage() {
                         isPresent={tag.isPresent} 
                         id={tag.id} 
                         status={tag.status}
+                        statusReason={tag.statusReason}
                         index={index}
                       />
                     </div>

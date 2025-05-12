@@ -1,4 +1,4 @@
-import { FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaQuestionCircle, FaExclamation, FaExclamationCircle } from "react-icons/fa"
+import { FaCheckCircle, FaTimesCircle, FaExclamationTriangle, FaQuestionCircle, FaExclamation, FaExclamationCircle, FaInfoCircle } from "react-icons/fa"
 import { TagStatus } from "../api"
 import { CSSProperties, useState } from "react"
 
@@ -10,11 +10,12 @@ interface TagResultProps {
   ids?: string[]
   details?: string
   dataLayer?: boolean
+  statusReason?: string
   style?: CSSProperties
   index: number
 }
 
-export default function TagResult({ name, isPresent, status, id, ids, details, dataLayer, style, index }: TagResultProps) {
+export default function TagResult({ name, isPresent, status, id, ids, details, dataLayer, statusReason, style, index }: TagResultProps) {
   const [expanded, setExpanded] = useState(false);
   
   // Generate status badge based on status
@@ -51,6 +52,23 @@ export default function TagResult({ name, isPresent, status, id, ids, details, d
             <FaTimesCircle className="w-[24px] h-[24px]" />
           </div>
         )
+    }
+  }
+
+  // Get status reason background color based on status
+  const getStatusReasonClass = () => {
+    switch (status) {
+      case TagStatus.CONNECTED:
+        return "bg-green-50 text-green-700 border-green-100";
+      case TagStatus.MISCONFIGURED:
+        return "bg-yellow-50 text-yellow-700 border-yellow-100";
+      case TagStatus.INCOMPLETE:
+        return "bg-orange-50 text-orange-700 border-orange-100";
+      case TagStatus.ERROR:
+        return "bg-purple-50 text-purple-700 border-purple-100";
+      case TagStatus.NOT_FOUND:
+      default:
+        return "bg-gray-50 text-gray-600 border-gray-100";
     }
   }
 
@@ -106,60 +124,70 @@ export default function TagResult({ name, isPresent, status, id, ids, details, d
   };
 
   return (
-    <div className="flex items-center py-3 sm:py-4 opacity-0" style={{
+    <div className="flex flex-col py-3 sm:py-4 opacity-0" style={{
       ...style,
       animation: `fadeIn ${index * 1}s ease-in-out forwards`,
       // animationDelay: `${index * 100}ms`
     }}>
-      <div className="mr-3 sm:mr-4">
-        {name === "Google Tag Manager" && (
-          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
-            <img
-              src="/tags/GTM.png"
-              alt="Google Tag Manager"
-              className="w-6 h-6 sm:w-8 sm:h-8"
-            />
-          </div>
-        )}
+      <div className="flex items-center">
+        <div className="mr-3 sm:mr-4">
+          {name === "Google Tag Manager" && (
+            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
+              <img
+                src="/tags/GTM.png"
+                alt="Google Tag Manager"
+                className="w-6 h-6 sm:w-8 sm:h-8"
+              />
+            </div>
+          )}
 
-        {name === "GA4" && (
-          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
-            <img
-              src="/tags/GA4.png"
-              alt="Google Analytics 4"
-              className="w-6 h-6 sm:w-8 sm:h-8"
-            />
-          </div>
-        )}
+          {name === "GA4" && (
+            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
+              <img
+                src="/tags/GA4.png"
+                alt="Google Analytics 4"
+                className="w-6 h-6 sm:w-8 sm:h-8"
+              />
+            </div>
+          )}
 
-        {name === "Google Ads Conversion" && (
-          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
-            <img
-              src="/tags/GAC.svg"
-              alt="Google Ads Conversion"
-              className="w-6 h-6 sm:w-8 sm:h-8"
-            />
-          </div>
-        )}
+          {name === "Google Ads Conversion" && (
+            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
+              <img
+                src="/tags/GAC.svg"
+                alt="Google Ads Conversion"
+                className="w-6 h-6 sm:w-8 sm:h-8"
+              />
+            </div>
+          )}
 
-        {name === "Meta Pixel" && (
-          <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
-            <img src="/tags/meta.png" alt="Meta Pixel" className="w-6 h-6 sm:w-8 sm:h-8" />
-          </div>
-        )}
+          {name === "Meta Pixel" && (
+            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg">
+              <img src="/tags/meta.png" alt="Meta Pixel" className="w-6 h-6 sm:w-8 sm:h-8" />
+            </div>
+          )}
+        </div>
+
+        <div className="flex-grow text-left">
+          <span className="font-semibold text-gray-800">{name}</span>
+          {renderIds()}
+          {details && status !== TagStatus.CONNECTED && status !== TagStatus.NOT_FOUND && (
+            <div className="text-xs text-gray-500 mt-1">{details}</div>
+          )}
+        </div>
+
+        <div className="ml-2 flex items-center">
+          {renderStatusBadge()}
+        </div>
       </div>
-
-      <div className="flex-grow text-left">
-        <span className="font-semibold text-gray-800">{name}</span>
-        {renderIds()}
-        {details && status !== TagStatus.CONNECTED && status !== TagStatus.NOT_FOUND && (
-          <div className="text-xs text-gray-500 mt-1">{details}</div>
-        )}
-      </div>
-
-      <div className="ml-2 flex items-center">
-        {renderStatusBadge()}
-      </div>
+      
+      {/* Add status reason section */}
+      {statusReason && (
+        <div className={`mt-2 ml-11 text-xs p-2 rounded-md border ${getStatusReasonClass()} flex items-start`}>
+          <FaInfoCircle className="mr-1.5 mt-0.5 flex-shrink-0" />
+          <span>{statusReason}</span>
+        </div>
+      )}
     </div>
   )
 }
