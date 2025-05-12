@@ -29,6 +29,7 @@ export interface Tag {
   ids?: string[];
   details?: string;
   dataLayer?: boolean;
+  statusReason?: string;
 }
 
 export interface ScanResult {

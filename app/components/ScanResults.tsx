@@ -111,6 +111,7 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
             ids={tag.ids}
             details={tag.details}
             dataLayer={tag.dataLayer}
+            statusReason={tag.statusReason}
             style={{ animationDelay: `${index * 100}ms` }}
           />
         ))}
