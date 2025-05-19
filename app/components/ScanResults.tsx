@@ -117,6 +117,25 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
         ))}
       </div>
 
+      {/* CMS Information */}
+      {scanResult?.cms && (
+        <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="flex items-center">
+            <div className="mr-3">
+              <div className="bg-blue-100 p-1.5 sm:p-2 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700">CMS Platform</p>
+              <p className="text-sm sm:text-base font-medium text-blue-700">{scanResult.cms}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* {scanResult && scanResult.recommendations && scanResult.recommendations.length > 0 && (
         <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-blue-50 rounded-lg">
           <h3 className="text-sm sm:text-md font-semibold text-blue-800 mb-1 sm:mb-2">Recommendations</h3>

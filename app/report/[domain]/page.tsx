@@ -4,69 +4,76 @@ import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar';
 import TagResult from '../../components/TagResult';
-import { Tag, TagStatus } from '../../api';
+import { Tag, TagStatus, getScanById } from '../../api';
 
 export default function ReportPage() {
   const params = useParams();
   const domain = params.domain as string;
   const [isLoading, setIsLoading] = useState(true);
   const [tags, setTags] = useState<Tag[]>([]);
+  const [cms, setCms] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchReport = async () => {
       setIsLoading(true);
       try {
-        // Mock API call - would be replaced with actual backend call
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Get scan result from API
+        const scanResult = await getScanById(domain);
         
-        // Mock data
-        setTags([
-          { 
-            name: 'Google Tag Manager', 
-            isPresent: true, 
-            id: 'GTM-ABC123', 
-            status: TagStatus.CONNECTED,
-            statusReason: 'GTM is properly implemented and activated.'
-          },
-          { 
-            name: 'GA4', 
-            isPresent: true, 
-            id: 'G-XY27990', 
-            status: TagStatus.CONNECTED,
-            statusReason: 'GA4 tracking is properly implemented and sending data to Google Analytics.'
-          },
-          { 
-            name: 'Google Ads Conversion', 
-            isPresent: true, 
-            id: 'AW-123456789', 
-            status: TagStatus.CONNECTED,
-            statusReason: 'Google Ads conversion tracking is properly configured.'
-          },
-          { 
-            name: 'Meta Pixel', 
-            isPresent: false, 
-            status: TagStatus.NOT_FOUND,
-            statusReason: 'No Meta Pixel implementation detected.'
-          },
-          { 
-            name: 'LinkedIn Insight', 
-            isPresent: false, 
-            status: TagStatus.NOT_FOUND,
-            statusReason: 'No LinkedIn Insight Tag detected on this site.'
-          },
-          { 
-            name: 'Pinterest Tag', 
-            isPresent: false, 
-            status: TagStatus.NOT_FOUND,
-            statusReason: 'No Pinterest Tag implementation detected.'
-          },
-          { 
-            name: 'Twitter Pixel', 
-            isPresent: false, 
-            status: TagStatus.NOT_FOUND,
-            statusReason: 'No Twitter Pixel implementation detected.'
-          },
-        ]);
+        if (scanResult) {
+          setTags(scanResult.tags);
+          setCms(scanResult.cms);
+        } else {
+          // Fallback to mock data if no scan result found
+          setTags([
+            { 
+              name: 'Google Tag Manager', 
+              isPresent: true, 
+              id: 'GTM-ABC123', 
+              status: TagStatus.CONNECTED,
+              statusReason: 'GTM is properly implemented and activated.'
+            },
+            { 
+              name: 'GA4', 
+              isPresent: true, 
+              id: 'G-XY27990', 
+              status: TagStatus.CONNECTED,
+              statusReason: 'GA4 tracking is properly implemented and sending data to Google Analytics.'
+            },
+            { 
+              name: 'Google Ads Conversion', 
+              isPresent: true, 
+              id: 'AW-123456789', 
+              status: TagStatus.CONNECTED,
+              statusReason: 'Google Ads conversion tracking is properly configured.'
+            },
+            { 
+              name: 'Meta Pixel', 
+              isPresent: false, 
+              status: TagStatus.NOT_FOUND,
+              statusReason: 'No Meta Pixel implementation detected.'
+            },
+            { 
+              name: 'LinkedIn Insight', 
+              isPresent: false, 
+              status: TagStatus.NOT_FOUND,
+              statusReason: 'No LinkedIn Insight Tag detected on this site.'
+            },
+            { 
+              name: 'Pinterest Tag', 
+              isPresent: false, 
+              status: TagStatus.NOT_FOUND,
+              statusReason: 'No Pinterest Tag implementation detected.'
+            },
+            { 
+              name: 'Twitter Pixel', 
+              isPresent: false, 
+              status: TagStatus.NOT_FOUND,
+              statusReason: 'No Twitter Pixel implementation detected.'
+            },
+          ]);
+          setCms('WordPress'); // Default fallback
+        }
       } catch (error) {
         console.error('Error fetching report:', error);
       } finally {
@@ -140,6 +147,32 @@ export default function ReportPage() {
                       />
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* CMS Information Section */}
+            <div className="mb-8">
+              <h2 className="text-lg font-semibold mb-3">CMS Information</h2>
+              <div className="border rounded-lg p-4">
+                <div className="flex items-center">
+                  <div className="mr-4">
+                    <div className="bg-blue-100 p-2 rounded-full">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    {cms ? (
+                      <>
+                        <p className="font-medium">Detected CMS Platform</p>
+                        <p className="text-gray-700">{cms}</p>
+                      </>
+                    ) : (
+                      <p className="text-gray-500">No CMS detected</p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

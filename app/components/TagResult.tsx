@@ -11,11 +11,17 @@ interface TagResultProps {
   details?: string
   dataLayer?: boolean
   statusReason?: string
+  // Additional GTM detection properties
+  detectedViaDestination?: boolean
+  gtmParameters?: string[]
+  mcIds?: string[]
+  // Meta Pixel network detection
+  detectedViaNetwork?: boolean
   style?: CSSProperties
   index: number
 }
 
-export default function TagResult({ name, isPresent, status, id, ids, details, dataLayer, statusReason, style, index }: TagResultProps) {
+export default function TagResult({ name, isPresent, status, id, ids, details, dataLayer, statusReason, detectedViaDestination, gtmParameters, mcIds, detectedViaNetwork, style, index }: TagResultProps) {
   const [expanded, setExpanded] = useState(false);
   
   // Generate status badge based on status
@@ -186,6 +192,69 @@ export default function TagResult({ name, isPresent, status, id, ids, details, d
         <div className={`mt-2 ml-11 text-xs p-2 rounded-md border ${getStatusReasonClass()} flex items-start`}>
           <FaInfoCircle className="mr-1.5 mt-0.5 flex-shrink-0" />
           <span>{statusReason}</span>
+        </div>
+      )}
+      
+      {/* Add advanced GTM detection details for Google Tag Manager */}
+      {name === "Google Tag Manager" && status === TagStatus.CONNECTED && (
+        detectedViaDestination || (gtmParameters && gtmParameters.length > 0) || (mcIds && mcIds.length > 0)
+      ) && (
+        <div className="mt-2 ml-11 text-xs">
+          <button 
+            onClick={() => setExpanded(!expanded)}
+            className="text-blue-500 flex items-center"
+          >
+            {expanded ? "Hide" : "Show"} detection details
+          </button>
+          
+          {expanded && (
+            <div className="mt-1 pl-2 border-l-2 border-blue-100 py-1">
+              {detectedViaDestination && (
+                <div className="text-green-600 flex items-center py-0.5">
+                  <FaCheckCircle className="mr-1.5 w-3 h-3" />
+                  <span>Detected via GTM destination URL</span>
+                </div>
+              )}
+              
+              {(mcIds && mcIds.length > 0) && (
+                <div className="text-green-600 flex items-start py-0.5">
+                  <FaCheckCircle className="mr-1.5 w-3 h-3 mt-0.5" />
+                  <div>
+                    <span>Detected MC format ID{mcIds.length > 1 ? 's' : ''}: </span>
+                    <div className="mt-0.5 font-mono">
+                      {mcIds.map((id, idx) => (
+                        <div key={idx} className="pl-3">{id}</div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {(gtmParameters && gtmParameters.length > 0) && (
+                <div className="text-green-600 flex items-start py-0.5">
+                  <FaCheckCircle className="mr-1.5 w-3 h-3 mt-0.5" />
+                  <div>
+                    <span>Detected GTM parameter{gtmParameters.length > 1 ? 's' : ''}: </span>
+                    <div className="mt-0.5 font-mono">
+                      {gtmParameters.map((param, idx) => (
+                        <div key={idx} className="pl-3">{param.replace('GTM-PARAM:', '')}</div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Add Meta Pixel network detection details */}
+      {name === "Meta Pixel" && status === TagStatus.CONNECTED && detectedViaNetwork && (
+        <div className="mt-2 ml-11 text-xs">
+          <div className="text-green-600 flex items-center py-0.5">
+            <FaCheckCircle className="mr-1.5 w-3 h-3" />
+            <span>Detected via network requests</span>
+          </div>
         </div>
       )}
     </div>
