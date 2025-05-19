@@ -30,6 +30,12 @@ export interface Tag {
   details?: string;
   dataLayer?: boolean;
   statusReason?: string;
+  // Additional GTM detection properties
+  detectedViaDestination?: boolean;
+  gtmParameters?: string[];
+  mcIds?: string[];
+  // Meta Pixel network detection
+  detectedViaNetwork?: boolean;
 }
 
 export interface ScanResult {
