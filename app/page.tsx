@@ -43,11 +43,11 @@ export default function Home() {
       <main className="flex-grow flex flex-col items-center px-4 sm:px-6 py-8 sm:py-12">
         <div className="w-full max-w-3xl mx-auto text-center mb-6 sm:mb-8">
           <div className="mb-6 sm:mb-10">
-            <h1 className="font-poppins text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 px-2">
-              Track Your Marketing Tags in Seconds
+            <h1 className="font-poppins text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 sm:mb-6 text-gray-900 px-2">
+              Scan Your Website for Tracking Errors
             </h1>
-            <p className="font-quicksand text-lg sm:text-xl text-gray-700 mb-6 sm:mb-8 px-2">
-              Instantly check GTM, GA4, Google Ads & Meta Pixel on any site
+            <p className="font-quicksand text-lg sm:text-xl text-gray-600 mb-6 sm:mb-8 px-2">
+              Check GTM, GA4, Meta Pixel, and more for free.
             </p>
           </div>
 

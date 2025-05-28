@@ -11,22 +11,22 @@ export default function Navbar() {
       <div className="flex items-center justify-between px-4 py-3 sm:py-4 w-full max-w-7xl mx-auto">
         <Link href="/" className="flex items-center">
           <div className="w-7 h-7 sm:w-8 sm:h-8 mr-1 sm:mr-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-            <svg 
-              className="w-4 h-4 sm:w-5 sm:h-5 text-white" 
-              viewBox="0 0 24 24" 
-              fill="none" 
+            <svg
+              className="w-4 h-4 sm:w-5 sm:h-5 text-white"
+              viewBox="0 0 24 24"
+              fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path 
-                d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
+              <path
+                d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
           </div>
-          <span className="font-poppins font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600 text-xs sm:text-sm md:text-base">TRACK TO MEASURE</span>
+          <span className="font-poppins font-bold text-black text-xs sm:text-sm md:text-base">TRACK TO MEASURE</span>
         </Link>
 
         {/* Desktop menu */}
@@ -76,22 +76,22 @@ export default function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden px-4 py-3 bg-white border-t border-gray-100 shadow-inner">
           <div className="flex flex-col space-y-3 font-poppins">
-            <Link 
-              href="/listeners" 
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors" 
+            <Link
+              href="/listeners"
+              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Listeners
             </Link>
-            <Link 
-              href="/guides" 
+            <Link
+              href="/guides"
               className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Guides
             </Link>
-            <Link 
-              href="/about" 
+            <Link
+              href="/about"
               className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >

@@ -74,7 +74,7 @@ export default function TagSlideshow() {
     };
 
     return (
-        <div className="w-full max-w-xl mx-auto mt-6 sm:mt-10 mb-8 bg-white rounded-lg overflow-hidden">
+        <div className="w-full max-w-xl mx-auto bg-white rounded-lg overflow-hidden">
             <div className="relative h-[280px] sm:h-[320px] overflow-hidden">
                 {/* Slides */}
                 {tags.map((tag, index) => (
