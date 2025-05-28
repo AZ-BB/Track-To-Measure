@@ -12,6 +12,11 @@ interface ScanResultsProps {
 
 export default function ScanResults({ url, tags, isLoading = false, scanResult }: ScanResultsProps) {
   const [expandedTags, setExpandedTags] = useState<Set<string>>(new Set());
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [tags, isLoading]);
 
   const toggleTagExpansion = (tagName: string) => {
     const newExpanded = new Set(expandedTags);
@@ -282,19 +287,7 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
         </Link>
       </div>
 
-      {
-        (() => {
-          const ref = useRef<HTMLDivElement>(null);
-
-          useEffect(() => {
-            ref.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-          }, []);
-
-          return (
-            <div ref={ref} className="h-1"></div>
-          )
-        })()
-      }
+      <div ref={scrollRef} className="h-1"></div>
     </div>
   );
 } 
