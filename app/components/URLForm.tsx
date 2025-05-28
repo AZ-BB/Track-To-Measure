@@ -47,7 +47,7 @@ export default function URLForm({ onSubmit, isLoading = false }: URLFormProps) {
         </div>
         <button
           type="submit"
-          className={`transition-all w-full sm:w-[25%] mt-2 sm:mt-0 h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base ${!url.trim() ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} bg-gradient-to-r from-blue-500 to-indigo-600 disabled:hover:from-blue-500 disabled:hover:to-indigo-600 text-white font-medium rounded-lg sm:rounded-l-none hover:from-blue-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 transition-all duration-200 ease-in-out transform hover:scale-105 disabled:hover:scale-100`}
+          className={`w-full -translate-x-2 sm:w-[25%] mt-2 sm:mt-0 h-10 sm:h-12 px-3 sm:px-4 text-sm sm:text-base ${!url.trim() ? "opacity-50 cursor-not-allowed" : "cursor-pointer"} bg-[#0049FD] text-white font-medium rounded-lg focus:outline-none disabled:opacity-70`}
           disabled={isLoading || !url.trim()}
         >
           {isLoading ? (
@@ -72,10 +72,10 @@ export default function URLForm({ onSubmit, isLoading = false }: URLFormProps) {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              <span>Checking...</span>
+              <span>Scanning...</span>
             </div>
           ) : (
-            "Check Now"
+            "Scan"
           )}
         </button>
       </div>
