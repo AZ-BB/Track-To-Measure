@@ -57,7 +57,7 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
       </div>
 
       {/* Progress bar */}
-      <div className="mb-4 sm:mb-6">
+      {/* <div className="mb-4 sm:mb-6">
         <div className="flex justify-between mb-1">
           <span className="text-xs font-medium text-blue-700">{fullyConnectedTags} of {totalTags} tags properly connected</span>
           <span className="text-xs font-medium text-blue-700">{percentComplete}%</span>
@@ -71,7 +71,7 @@ export default function ScanResults({ url, tags, isLoading = false, scanResult }
             style={{ width: `${percentComplete}%` }}
           ></div>
         </div>
-      </div>
+      </div> */}
 
       {/* Status summary */}
       <div className="flex justify-between mb-4 text-xs text-gray-600 bg-gray-50 p-3 rounded border border-gray-200">
