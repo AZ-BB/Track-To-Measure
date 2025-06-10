@@ -188,12 +188,12 @@ export default function TagResult({ name, isPresent, status, id, ids, details, d
       </div>
       
       {/* Add status reason section */}
-      {statusReason && (
+      {/* {statusReason && (
         <div className={`mt-2 ml-11 text-xs p-2 rounded-md border ${getStatusReasonClass()} flex items-start`}>
           <FaInfoCircle className="mr-1.5 mt-0.5 flex-shrink-0" />
           <span>{statusReason}</span>
         </div>
-      )}
+      )} */}
       
       {/* Add advanced GTM detection details for Google Tag Manager */}
       {name === "Google Tag Manager" && status === TagStatus.CONNECTED && (
