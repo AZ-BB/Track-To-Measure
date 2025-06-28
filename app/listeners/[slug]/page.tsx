@@ -5,13 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import { notFound, useParams } from 'next/navigation';
-import { listenerCards } from '../../data/listenerCards';
+import { listenerCardsChat } from '../../data/listenerCards';
 
 export default function EventListenerPage() {
   const params = useParams();
   const [isCopied, setIsCopied] = useState(false);
 
-  const listener = listenerCards.find(card => card.slug === params.slug);
+  const listener = listenerCardsChat.find(card => card.slug === params.slug);
 
   if (!listener) {
     notFound();
