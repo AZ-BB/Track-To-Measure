@@ -84,7 +84,7 @@ export default function EventListenerPage() {
           </div>
 
           {/* Description */}
-          <div className="mb-8" dangerouslySetInnerHTML={{ __html: description }}>
+          <div className="mb-8 widget" dangerouslySetInnerHTML={{ __html: description }}>
           </div>
 
           {/* GTM Setup Steps */}
