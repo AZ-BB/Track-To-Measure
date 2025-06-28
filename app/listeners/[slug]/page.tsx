@@ -10,7 +10,7 @@ import { listenerCards } from '../../data/listenerCards';
 export default function EventListenerPage() {
   const params = useParams();
   const [isCopied, setIsCopied] = useState(false);
-  
+
   const listener = listenerCards.find(card => card.slug === params.slug);
 
   if (!listener) {
@@ -21,7 +21,7 @@ export default function EventListenerPage() {
 
   const copyToClipboard = () => {
     if (!code) return;
-    
+
     navigator.clipboard.writeText(code)
       .then(() => {
         setIsCopied(true);
@@ -35,22 +35,22 @@ export default function EventListenerPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-black">
       <Navbar />
-      
+
       <main className="flex-grow px-4 py-4 max-w-3xl mx-auto w-full">
         <div className="w-full">
-          
+
           {/* Title */}
           <h2 className="text-4xl font-bold text-center mb-4">
             {title} Listener for GTM
           </h2>
-          
+
           {/* Goal */}
           <div className="text-center mb-8">
             <p className="text-lg">
               <span className="font-semibold">Goal:</span> Trigger GTM tags when a {title} is submitted or successfully completed.
             </p>
           </div>
-          
+
           {/* Copy & Paste Listener Script Section */}
           <div className="mb-8">
             <div className="flex items-center mb-3">
@@ -61,13 +61,13 @@ export default function EventListenerPage() {
               </div>
               <h3 className="text-xl font-medium">Copy & Paste Listener Script</h3>
             </div>
-            
+
             <div className="bg-gray-900 rounded-lg p-4 relative">
               <pre className="text-white font-mono text-sm overflow-x-auto max-h-60 overflow-y-auto whitespace-pre-wrap">
                 {code ? code : 'No code available'}
               </pre>
-              <button 
-                onClick={copyToClipboard} 
+              <button
+                onClick={copyToClipboard}
                 className="absolute top-3 right-10 text-white hover:text-gray-300 focus:outline-none"
               >
                 {isCopied ? (
@@ -82,7 +82,11 @@ export default function EventListenerPage() {
               </button>
             </div>
           </div>
-          
+
+          {/* Description */}
+          <div className="mb-8" dangerouslySetInnerHTML={{ __html: description }}>
+          </div>
+
           {/* GTM Setup Steps */}
           <div>
             <div className="flex items-center mb-3">
@@ -92,7 +96,7 @@ export default function EventListenerPage() {
               </svg>
               <h3 className="text-xl font-medium">GTM Setup Steps</h3>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column */}
               <div>
@@ -103,7 +107,7 @@ export default function EventListenerPage() {
                     <li>Paste the script above</li>
                   </ul>
                 </div>
-                
+
                 <div>
                   <p className="font-semibold mb-1">2. Create a Trigger</p>
                   <ul className="list-disc pl-5 text-sm text-gray-700">
@@ -112,7 +116,7 @@ export default function EventListenerPage() {
                   </ul>
                 </div>
               </div>
-              
+
               {/* Right Column */}
               <div>
                 <div>
@@ -121,7 +125,7 @@ export default function EventListenerPage() {
                     <li>Use the trigger to fire your GA4, Meta, or Ads tag</li>
                   </ul>
                 </div>
-                
+
                 <div className="mt-4">
                   <p className="font-semibold mb-1">4. Verify Implementation</p>
                   <ul className="list-disc pl-5 text-sm text-gray-700">
@@ -132,7 +136,7 @@ export default function EventListenerPage() {
               </div>
             </div>
           </div>
-          
+
           {/* How to Test */}
           <div className="mt-8">
             <div className="flex items-center mb-3">
@@ -141,14 +145,14 @@ export default function EventListenerPage() {
               </svg>
               <h3 className="text-xl font-medium">How to Test</h3>
             </div>
-            
+
             <ul className="list-disc pl-5 text-sm text-gray-700">
               <li>Enable Preview Mode in GTM</li>
               <li>Submit a {title} form</li>
               <li>Check if "{listener.slug}-success" shows in GTM debug console</li>
             </ul>
           </div>
-          
+
           <div className="mt-8 text-center">
             <Link href="/listeners">
               <div className="inline-block bg-gray-800 text-white px-6 py-3 rounded hover:bg-gray-900 transition-colors">
