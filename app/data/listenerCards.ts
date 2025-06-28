@@ -8,7 +8,7 @@ export interface ListenerCardProps {
 	listDescription?: string;
 }
 
-export const listenerCards: ListenerCardProps[] = [
+export const listenerCardsChat: ListenerCardProps[] = [
 	{
 		title: 'Hubspot Live Chat',
 		description: `
@@ -3346,4 +3346,17 @@ handleMedalliaEvent('MDigital_CaptureButton_Cancel', 'Screen capture canceled', 
 		slug: 'happyfox-chat',
 		logoPath: '/logos/happyfox.jpg'
 	}
-]; 
+];
+
+
+export const listenerCardsForm: ListenerCardProps[] = [
+];
+
+export const listenerCardsVideo: ListenerCardProps[] = [
+];
+
+export const listenerCardsPopup: ListenerCardProps[] = [
+];
+
+export const listenerCardsOther: ListenerCardProps[] = [
+];
