@@ -137,19 +137,20 @@ export default function ListenersPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {activeListenerCardsOther.map((card, index) => (
                             <Link key={index} href={`/listeners/${card.slug}`} className="block">
-                                <div className="rounded-lg overflow-hidden shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow"></div>
-                                <div className="flex items-center mb-4">
-                                    <div className="w-12 h-12 relative mr-4">
-                                        <Image
-                                            src={card.logoPath}
-                                            alt={`${card.title} logo`}
-                                            fill
-                                            style={{ objectFit: 'contain' }}
-                                        />
+                                <div className="rounded-lg overflow-hidden shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-12 h-12 relative mr-4">
+                                            <Image
+                                                src={card.logoPath}
+                                                alt={`${card.title} logo`}
+                                                fill
+                                                style={{ objectFit: 'contain' }}
+                                            />
+                                        </div>
+                                        <h3 className="text-xl font-bold">{card.title}</h3>
                                     </div>
-                                    <h3 className="text-xl font-bold">{card.title}</h3>
+                                    <p className="text-gray-700">{card.listDescription}</p>
                                 </div>
-                                <p className="text-gray-700">{card.listDescription}</p>
                             </Link>
                         ))}
                     </div>
