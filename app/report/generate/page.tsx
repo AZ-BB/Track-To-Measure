@@ -17,9 +17,13 @@ import {
     FaWordpress,
     FaCheckCircle,
     FaTimesCircle,
-    FaExclamationTriangle
+    FaExclamationTriangle,
+    FaShopify,
+    FaWix,
+    FaJoomla
 } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface ScanData {
     tags: Tag[];
@@ -83,13 +87,13 @@ export default function GenerateReport() {
     const getTagIcon = (tagName: string) => {
         switch (tagName) {
             case 'Google Tag Manager':
-                return <FaGoogle className="text-blue-500" />;
+                return <Image src="/tags/GTM.png" alt="Google Tag Manager" width={24} height={24} className="w-6 h-6" />;
             case 'GA4':
-                return <FaGoogle className="text-orange-500" />;
+                return <Image src="/tags/GA4.png" alt="GA4" width={24} height={24} className="w-6 h-6" />;
             case 'Google Ads Conversion':
-                return <FaGoogle className="text-blue-500" />;
+                return <Image src="/tags/GAC.svg" alt="Google Ads Conversion" width={24} height={24} className="w-6 h-6" />;
             case 'Meta Pixel':
-                return <FaFacebook className="text-blue-600" />;
+                return <Image src="/tags/meta.png" alt="Meta Pixel" width={24} height={24} className="w-6 h-6" />;
             case 'TikTok Pixel':
                 return <FaTiktok className="text-black" />;
             case 'Pinterest Tag':
@@ -175,6 +179,27 @@ export default function GenerateReport() {
         day: 'numeric'
     });
 
+    const getCMSIcon = (cmsName: string) => {
+        const lowerCMS = cmsName.toLowerCase();
+        if (lowerCMS.includes('wordpress')) {
+            return <FaWordpress className="text-2xl text-blue-600" />;
+        } else if (lowerCMS.includes('hubspot')) {
+            return <Image src="/logos/hubspot.jpg" alt="HubSpot" width={32} height={32} className="w-8 h-8 rounded" />;
+        }
+        else if (lowerCMS.includes('shopify')) {
+            return <FaShopify className="text-2xl text-gray-600" />;
+        }
+        else if (lowerCMS.includes('wix')) {
+            return <FaWix className="text-2xl text-gray-600" />;
+        }
+        else if (lowerCMS.includes('joomla')) {
+            return <FaJoomla className="text-2xl text-gray-600" />
+        }
+        else {
+            return <FaWordpress className="text-2xl text-gray-600" />;
+        }
+    };
+
     return (
         <main className="min-h-screen flex flex-col bg-white font-quicksand">
 
@@ -224,7 +249,7 @@ export default function GenerateReport() {
                         <h2 className="text-xl font-semibold text-gray-900 mb-4">Technology Detected</h2>
                         {scanData.scanResult?.cms ? (
                             <div className="flex items-center space-x-3 mb-6">
-                                <FaWordpress className="text-2xl text-blue-600" />
+                                {getCMSIcon(scanData.scanResult.cms)}
                                 <span className="font-medium text-gray-900">{scanData.scanResult.cms}</span>
                             </div>
                         ) : (
