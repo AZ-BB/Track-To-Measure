@@ -231,7 +231,27 @@ export default function GenerateReport() {
                             <div key={index} className={`flex items-center justify-between p-4 ${index !== scanData.tags.length - 1 ? 'border-b border-gray-400' : ''}`}>
                                 <div className="flex items-center space-x-3">
                                     <div className="text-xl">{getTagIcon(tag.name)}</div>
-                                    <span className="font-medium text-gray-900">{tag.name}</span>
+                                    <div className="flex flex-col">
+                                        <span className="font-medium text-gray-900">{tag.name}</span>
+                                        {/* Display tag IDs */}
+                                        {(tag.id || (tag.ids && tag.ids.length > 0)) && (
+                                            <div className="mt-1">
+                                                {tag.ids && tag.ids.length > 0 ? (
+                                                    <div className="space-y-1">
+                                                        {tag.ids.map((id, idIndex) => (
+                                                            <div key={idIndex} className="text-xs text-blue-600 font-mono">
+                                                                ID: {id}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                ) : tag.id ? (
+                                                    <div className="text-xs text-blue-600 font-mono">
+                                                        ID: {tag.id}
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="flex items-center space-x-3">
                                     <span className="text-gray-600">{getDisplayStatus(tag.status)}</span>
@@ -296,7 +316,20 @@ export default function GenerateReport() {
                         <Link href={{
                             pathname: `/report/generate/pdf`,
                             query: {
-                                url: scanData.domain
+                                url: scanData.domain,
+                                data: encodeURIComponent(JSON.stringify({
+                                    url: scanData.domain,
+                                    domain: scanData.domain,
+                                    scanTime: new Date().toISOString(),
+                                    tags: scanData.tags,
+                                    cms: scanData.scanResult?.cms,
+                                    recommendations: [
+                                        ...(scanData.notFoundCount > 0 ? [`Add missing tracking codes (${scanData.notFoundCount} tags not found)`] : []),
+                                        ...(scanData.misconfiguredCount > 0 ? [`Fix misconfigured tags (${scanData.misconfiguredCount} tags need attention)`] : []),
+                                        ...(scanData.incompleteCount > 0 ? [`Complete tag setup (${scanData.incompleteCount} tags incomplete)`] : []),
+                                        ...(scanData.connectedCount === scanData.tags.length ? ['All tags are properly configured!'] : [])
+                                    ]
+                                }))
                             }
                         }}
                             className='w-full cursor-pointer bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors'
