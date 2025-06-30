@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { generateReport } from '../../../api';
+import { generateReport, generateReportFromScan } from '../../../api';
 import { useAuth } from '../../../context/AuthContext';
 
 export default function GenerateReport() {
@@ -11,6 +11,7 @@ export default function GenerateReport() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlParam = searchParams.get('url');
+  const dataParam = searchParams.get('data');
   const { isAuthenticated, isLoading: authLoading } = useAuth();
 
   useEffect(() => {
@@ -38,25 +39,54 @@ export default function GenerateReport() {
         setLoading(true);
         const url = decodeURIComponent(urlParam);
         
-        // Request the PDF generation
-        const pdfBlob = await generateReport(url, {
-          includeRecommendations: true,
-          includeCmsInfo: true,
-          includeHeader: true,
-          colorScheme: 'default'
-        });
-        
-        // Create a download link
-        const downloadUrl = URL.createObjectURL(pdfBlob);
-        const link = document.createElement('a');
+        let pdfBlob: Blob;
+        let domain = url;
         
         // Extract domain for file name
-        let domain = url;
         try {
           domain = new URL(url.startsWith('http') ? url : `https://${url}`).hostname;
         } catch (e) {
           console.error('Could not parse URL for domain:', e);
         }
+        
+        // Use existing scan data if available, otherwise perform fresh scan
+        if (dataParam) {
+          try {
+            const scanData = JSON.parse(decodeURIComponent(dataParam));
+            
+            // Request the PDF generation using existing scan data
+            pdfBlob = await generateReportFromScan(scanData, {
+              includeRecommendations: true,
+              includeCmsInfo: true,
+              includeHeader: true,
+              colorScheme: 'default'
+            });
+            
+            domain = scanData.domain;
+          } catch (parseError) {
+            console.error('Error parsing scan data, falling back to fresh scan:', parseError);
+            
+            // Fall back to fresh scan
+            pdfBlob = await generateReport(url, {
+              includeRecommendations: true,
+              includeCmsInfo: true,
+              includeHeader: true,
+              colorScheme: 'default'
+            });
+          }
+        } else {
+          // No scan data provided, perform fresh scan
+          pdfBlob = await generateReport(url, {
+            includeRecommendations: true,
+            includeCmsInfo: true,
+            includeHeader: true,
+            colorScheme: 'default'
+          });
+        }
+        
+        // Create a download link
+        const downloadUrl = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
         
         // Set download attributes
         link.href = downloadUrl;
